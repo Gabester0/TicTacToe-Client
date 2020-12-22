@@ -47,8 +47,7 @@ const RandomGame = (props)=>{
             sessionStorage.setItem('client', player)
             console.log(`Updated client to ${player}`)
             setGame(game)
-            console.log("Client is Playing as:  ", player)
-            console.log(`Server message: ${note}`, game, player, status)
+            console.log("Client is Playing as:  ", player, note, game, status)
         })
         
         socket.on("start", (initialGame)=>{
