@@ -1,6 +1,6 @@
 # Tic Tac Toe
 
-[Tic Tac Toe]('./')
+[Tic Tac Toe]('https://eipper-tic-tac-toe--client.herokuapp.com/')
 
 ## Built with:
 
