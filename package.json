@@ -2,7 +2,7 @@
   "name": "tic-tac-toe",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://gabester0.github.io/TicTacToe",
+  "homepage": "https://eipper-tictactoe.herokuapp.com/",
   "engines": {
     "yarn": "1.22.4",
     "node": "12.18.0"
