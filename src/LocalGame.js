@@ -89,7 +89,7 @@ const LocalGame = (props)=> {
                 {  draw ? `The game is a draw` : !winner ? `Current Player: ${player}` : `Player ${player} is the winner!`}
                 </StyledH5Two>
             </StaticDiv>
-            <Btn onClick={resetBoard}>{ winner || draw ? `Play again` : `Reset game`}</Btn>
+            <Btn onClick={resetBoard}>{ winner || draw ? `Play again` : `Restart`}</Btn>
             <Btn onClick={props.menu}>Back to menu</Btn>
             <Btn id="sound" onClick={toggleSound}><Sound id="soundSVG" alt="sound" src={sessionStorage.getItem('sound') === 'true' ? volumeSVG : muteSVG}/></Btn>
             <Board handleClick={handleClick} board={board} />

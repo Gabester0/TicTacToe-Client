@@ -13,6 +13,10 @@ export const StaticDiv = styled.div`
     display: flex;
     align-content: center;
     justify-content: center;
+    @media (max-width: 380px){
+        flex-direction: column;
+        height: auto;
+    }
 `;
 
 export const StyledH1 = styled.h1`
@@ -21,13 +25,16 @@ export const StyledH1 = styled.h1`
 `;
 
 export const StyledH5One = styled.h5`
-    margin: 0;
+    margin: 0 20px;
     font-size: ${ props => (props.winner || props.draw) ? "24px" : "20px" };
     color: ${props=>
         props.player === "X" ?
             "#bd0000" :
                 "#4464AD"
     };
+    @media (max-width: 380px){
+        margin: 0 0 20px 0;
+    }
 `;
 
 export const StyledH5Two = styled.h5`
@@ -41,6 +48,9 @@ export const StyledH5Two = styled.h5`
                     "#bd0000" :
                         "#4464AD"
     };
+    @media (max-width: 380px){
+        margin: 0 0 20px 0;
+    }
 `;
 
 export const Btn = styled.button`
