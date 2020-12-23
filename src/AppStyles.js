@@ -32,7 +32,7 @@ export const StyledH5One = styled.h5`
             "#bd0000" :
                 "#4464AD"
     };
-    @media (max-width: 380px){
+    @media (max-width: 440px){
         margin: 0 0 20px 0;
     }
 `;
@@ -48,7 +48,7 @@ export const StyledH5Two = styled.h5`
                     "#bd0000" :
                         "#4464AD"
     };
-    @media (max-width: 380px){
+    @media (max-width: 440px){
         margin: 0 0 20px 0;
     }
 `;
