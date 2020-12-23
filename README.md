@@ -35,7 +35,7 @@
 4.  Run `yarn` to install Node modules
 5.  Run `yarn run start` to start the client
 
-## Remaining goals:
+---
 
 ### - Pre-Deployment Items:
 
@@ -48,3 +48,14 @@
 ##### - Server
 
 > - Comment out line 1 of server.js pre-deployment
+
+---
+
+## Remaining goals:
+
+> - If Player clicks randomGame or play again and is set as player X, if they leave before someone else joins need to set the game status on the server to true so nobody joins this game. Or reset the values in Redis for that game entirely? Remove game from games array and remove game object? If can't be done in Redis then setting status to true will suffice.
+>   > - Change quit event to fire anytime?
+> - Have loading state show different value for "You are player undefined"
+> - Have re-loading state show different value for "You are player false"
+>   > - Change to empty string instead of false and undefined ( useState() with no initial value )
+> - Make game a PWA?

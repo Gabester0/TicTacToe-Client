@@ -138,7 +138,9 @@ const RandomGame = (props)=>{
     return (
         <>
             <StaticDiv>
-                <StyledH5One draw={draw} winner={winner} player={client}>{`You are player ${client}`}</StyledH5One>
+                <StyledH5One draw={draw} winner={winner} player={client}>
+                    {`You are player ${client}`}
+                </StyledH5One>
                 <StyledH5Two draw={draw} winner={winner} player={(player === "X")}>
                     { ready && (draw ? `The game is a draw` : !winner ? `Player ${player}'s turn` : `Player ${player} is the winner!`)}
                 </StyledH5Two>
