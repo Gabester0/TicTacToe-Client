@@ -13,7 +13,7 @@ export const StaticDiv = styled.div`
     display: flex;
     align-content: center;
     justify-content: center;
-    @media (max-width: 380px){
+    @media (max-width: 440px){
         flex-direction: column;
         height: auto;
     }
