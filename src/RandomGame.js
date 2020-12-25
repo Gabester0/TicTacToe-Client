@@ -9,10 +9,11 @@ const volumeSVG = require('./static/volume.svg');
 const muteSVG = require('./static/mute.svg');
 
 const RandomGame = (props)=>{
-    const [ socket ] = useSocket(process.env.REACT_APP_SERVER_URL, {autoConnect: false});
+    const [ socket ] = useSocket(`localhost:5005`, {autoConnect: false});
+    // const [ socket ] = useSocket(process.env.REACT_APP_SERVER_URL, {autoConnect: false});
 
     const [ ready, setReady ] = useState(false);
-    const [ client, setClient ] = useState();
+    const [ client, setClient ] = useState(``);
     const [ game, setGame ] = useState();
     const [ board, setBoard ] = useState( { ...Array(9).fill(null) } );
     const [ player, setPlayer ] = useState(``)
@@ -95,6 +96,7 @@ const RandomGame = (props)=>{
             document.getElementById('menu').addEventListener('click', ()=>{
                 sessionStorage.removeItem('client')
                 socket.emit(`quit`, {game})
+                console.log(`Emitting Quit Event`)
             })
         }
 
@@ -123,7 +125,7 @@ const RandomGame = (props)=>{
         if(lastWin.length >= 1) resetHighlight(lastWin[lastWin.length - 1])
         console.log(`Initiating another game`)
         socket.emit(`initiatePlayAgain`, { game, client })
-        setClient(false)
+        setClient(``)
         sessionStorage.removeItem('client')
     }
 
