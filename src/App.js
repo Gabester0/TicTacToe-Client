@@ -6,6 +6,15 @@ import Menu from './components/menu/Menu';
 
 function App() {
 
+    if("serviceWorker" in navigator){
+        window.addEventListener("load", ()=>{
+            navigator.serviceWorker
+                .register("/serviceWorker.js")
+                .then(res=> console.log("Service Worker registered"))
+                .catch(err=> console.log("Service worker not registered: ", err))
+        })
+    }
+
     const [localGame, setLocalGame] = useState(false);
     const [randomGame, setRandomGame] = useState(false);
 
