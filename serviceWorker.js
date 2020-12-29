@@ -30,4 +30,14 @@ const assets = [
 Why am I using the .pngs instead of the SVGs?  Test running with svgs
 "/src/static/Cannon.svg",
 "/src/static/StubbyCannon.svg",
+Need a way to check if we are online and disable randomGame if not
+Do we do this in the service worker or in menu?
 */
+
+self.addEventListener("install", installEvent => {
+    installEvent.waitUntil(
+        caches.open(staticTicTacToe).then(cache =>{
+            cache.addAll(assets)
+        })
+    )
+})
