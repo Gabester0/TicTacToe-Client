@@ -95,7 +95,7 @@ const LocalGame = (props)=> {
             <Board handleClick={handleClick} board={board} />
             <Cannon
                 show={winner}
-                src={require('./static/StubbyCannon.png')} 
+                src={require('./static/StubbyCannon.svg')} 
                 alt="confetti canon"
                 ref={confettiAnchorRef} />
             {winner && delay && (
