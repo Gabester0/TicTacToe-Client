@@ -9,6 +9,9 @@ const volumeSVG = require('./static/volume.svg');
 const muteSVG = require('./static/mute.svg');
 
 const RandomGame = (props)=>{
+    // DEVELOPMENT: 
+    // const [ socket ] = useSocket(`localhost:5005`, {autoConnect: false});
+    // PRODUCTION:
     const [ socket ] = useSocket(process.env.REACT_APP_SERVER_URL, {autoConnect: false});
 
     const [ ready, setReady ] = useState(false);
@@ -154,7 +157,7 @@ const RandomGame = (props)=>{
             {ready && <Board handleClick={handleClick} board={board} />}
             <Cannon
                 show={ winner && player === client }
-                src={require('./static/StubbyCannon.png')} 
+                src={require('./static/StubbyCannon.svg')} 
                 alt="confetti canon"
                 ref={confettiAnchorRef} />
             {winner && player === client && delay && (
