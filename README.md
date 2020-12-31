@@ -1,6 +1,6 @@
 # Tic Tac Toe
 
-[Tic Tac Toe](https://eipper-tictactoe.herokuapp.com/)
+[Tic Tac Toe](https://eipper-tictactoe.netlify.app/)
 
 ## Built with:
 
@@ -48,9 +48,3 @@
 ##### - Server
 
 > - Comment out line 1 of server.js pre-deployment
-
----
-
-## Remaining goals:
-
-> - Make game a PWA?
