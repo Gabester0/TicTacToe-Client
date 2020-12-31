@@ -11,6 +11,7 @@ export const Centered = styled.div`
     width: 300px;
     margin: 100px auto;
 `
-export const StyledH4 = styled.h4`
+export const StyledH2 = styled.h2`
     font-weight: bold;
+    font-size: 1.2rem;
 `;

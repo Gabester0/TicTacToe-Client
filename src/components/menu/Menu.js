@@ -1,5 +1,5 @@
 import React from 'react';
-import { Centered, MenuBtn, StyledH4 } from './MenuStyles';
+import { Centered, MenuBtn, StyledH2 } from './MenuStyles';
 
 const Menu = (props)=>{
     
@@ -9,9 +9,9 @@ const Menu = (props)=>{
 
     return (
         <Centered>
-            <StyledH4>Play a local game</StyledH4>
+            <StyledH2>Play a local game</StyledH2>
             <MenuBtn onClick={props.localGame} >Local Game</MenuBtn>
-            <StyledH4>Play a random opponent</StyledH4>
+            <StyledH2>Play a random opponent</StyledH2>
             <MenuBtn id="onlineGame" onClick={props.randomGame} >Random Opponent</MenuBtn>
         </Centered>
     )
