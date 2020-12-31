@@ -1,4 +1,4 @@
-const staticTicTacToe = `Static Tic Tac Toe V1`;
+const staticTicTacToe = `Static Tic Tac Toe V2`;
 
 const assets = [
     "/",
