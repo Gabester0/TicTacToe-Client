@@ -28,7 +28,7 @@ const assets = [
 self.addEventListener("install", installEvent => {
     installEvent.waitUntil(
         caches.open(staticTicTacToe).then(cache =>{
-            cache.addAll(assets)
+            return cache.addAll(assets)
         })
     )
 })
