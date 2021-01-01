@@ -33,14 +33,14 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <script>
-      if("serviceWorker" in navigator){
-      window.addEventListener("load", ()=>{
-        navigator.serviceWorker
-          .register("/serviceWorker.js")
-          .then(res=> console.log("Service Worker registered"))
-          .catch(err=> console.log("Service worker not registered: ", err))
-        })
-      }
+      // if("serviceWorker" in navigator){
+      // window.addEventListener("load", ()=>{
+      //   navigator.serviceWorker
+      //     .register("/serviceWorker.js")
+      //     .then(res=> console.log("Service Worker registered"))
+      //     .catch(err=> console.log("Service worker not registered: ", err))
+      //   })
+      // }
     </script>
   </body>
 </html>
