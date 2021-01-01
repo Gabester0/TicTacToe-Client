@@ -13,7 +13,7 @@ const Menu = (props)=>{
     )
 }
 
-if( !navigator.onLine && document.getElementById('randomOpponent') ) document.getElementById('randomOpponent').setAttribute('disabled', 'true')
+if( !navigator.onLine && !!document.getElementById('randomOpponent') ) document.getElementById('randomOpponent').setAttribute('disabled', 'true')
 window.addEventListener('offline', e => document.getElementById('randomOpponent').setAttribute('disabled', 'true') )
 window.addEventListener('online', e => document.getElementById('randomOpponent')?.removeAttribute('disabled') );
 
