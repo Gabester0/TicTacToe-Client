@@ -2,7 +2,6 @@
 const staticTicTacToe = `Static Tic Tac Toe V2`;
 
 const assets = [
-    "/",
     "/index.html",
     "../src/App.js",
     "../src/AppStyles.js",
