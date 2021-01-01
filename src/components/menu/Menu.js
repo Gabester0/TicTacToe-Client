@@ -2,10 +2,6 @@ import React from 'react';
 import { Centered, MenuBtn, StyledH2 } from './MenuStyles';
 
 const Menu = (props)=>{
-    
-    if(!navigator.onLine) document.getElementById('onlineGame').setAttribute('disabled', 'true')
-    window.addEventListener('offline', e => document.getElementById('onlineGame').setAttribute('disabled', 'true') )
-    window.addEventListener('online', e => document.getElementById('onlineGame')?.removeAttribute('disabled') );
 
     return (
         <Centered>
@@ -16,5 +12,9 @@ const Menu = (props)=>{
         </Centered>
     )
 }
+
+if(!navigator.onLine) document.getElementById('onlineGame').setAttribute('disabled', 'true')
+window.addEventListener('offline', e => document.getElementById('onlineGame').setAttribute('disabled', 'true') )
+window.addEventListener('online', e => document.getElementById('onlineGame')?.removeAttribute('disabled') );
 
 export default Menu;
