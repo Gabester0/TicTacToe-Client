@@ -14,8 +14,4 @@ const Menu = (props)=>{
     )
 }
 
-// window.addEventListener('offline', e => document.getElementById('randomOpponent')?.setAttribute('disabled', 'true') )
-// window.addEventListener('online', e => document.getElementById('randomOpponent')?.removeAttribute('disabled') );
-// if( navigator.onLine !== true && !!document.getElementById('randomOpponent') ) document.getElementById('randomOpponent').setAttribute('disabled', 'true')
-
 export default Menu;
