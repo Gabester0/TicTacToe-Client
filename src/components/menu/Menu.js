@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Centered, MenuBtn, StyledH2 } from './MenuStyles';
 
 const Menu = (props)=>{
 
+    useEffect(()=>{
+        window.addEventListener('offline', e => document.getElementById('randomOpponent')?.setAttribute('disabled', 'true') )
+        window.addEventListener('online', e => document.getElementById('randomOpponent')?.removeAttribute('disabled') );
+        return ()=>{
+            window.removeEventListener('offline', e => document.getElementById('randomOpponent')?.setAttribute('disabled', 'true') )
+            window.removeEventListener('online', e => document.getElementById('randomOpponent')?.removeAttribute('disabled') );
+        }
+    }, [])
     return (
         <Centered>
             <StyledH2>Play a local game</StyledH2>
