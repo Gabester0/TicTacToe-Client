@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from 'react';
 import useSocket from 'use-socket.io-client';
 import Board, { playAudio, highlightWin, resetHighlight } from './components/board/Board';

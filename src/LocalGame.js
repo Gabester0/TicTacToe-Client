@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from 'react';
 import Board, { playAudio, highlightWin, resetHighlight } from './components/board/Board';
 import ConfettiCannon from './components/confettiCannon/ConfettiCannon';
@@ -7,7 +8,6 @@ import { delayFunction } from './utility/utilities';
 const LocalGame = (props)=> {
     const [player, setPlayer] = useState("X");
     const [board, setBoard] = useState( { ...Array(9).fill(null) } ); //server
-    const [lastMove, setlastMove] = useState();
     const [xmoves, setXMoves] = useState([]);
     const [omoves, setOMoves] = useState([]);
     const [winner, setWinner] = useState(false);
@@ -30,7 +30,6 @@ const LocalGame = (props)=> {
     const handleClick = (e)=>{
         const curr = parseInt(e.target.id);
         if(board[curr] === null && !winner){
-            setlastMove(curr);
             const sound = sessionStorage.getItem('sound');
             if(sound === 'true') playAudio(`clickAudio`, .4);
             setBoard({
