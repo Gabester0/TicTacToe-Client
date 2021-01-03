@@ -25,6 +25,8 @@
 
 > Each connection from Socket.io is connectd to a socket room with only 1 player or added to a new room to wait for a second player. All of the game state exists in Redis and is emitted to the room when it is updated.
 
+> The game is a PWA with a fully functional local game option without an internet connection. The random game option disabled when there is no internet access and becomes an option when internet connection is restored.
+
 ---
 
 ## Run client locally
