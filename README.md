@@ -1,6 +1,8 @@
 # Tic Tac Toe
 
-[Tic Tac Toe](https://eipper-tictactoe.netlify.app/)
+**Website:** [Tic Tac Toe](https://eipper-tictactoe.netlify.app/)
+
+**Server Code:** [Github Repository](https://github.com/Gabester0/TicTacToe-Server)
 
 ## Built with:
 
@@ -25,7 +27,7 @@
 
 > Each connection from Socket.io is connectd to a socket room with only 1 player or added to a new room to wait for a second player. All of the game state exists in Redis and is emitted to the room when it is updated.
 
-> The game is a PWA with a fully functional local game option without an internet connection. The random game option disabled when there is no internet access and becomes an option when internet connection is restored.
+> The game is a PWA with a fully functional local game option without an internet connection. The random game option disabled when there is no internet connection and becomes an option when internet connection is restored. The backend in deployed on Heroku. The frontend was initially deployed on Heroku, but when I was adding the service worker and overhauling the project to be a PWA I ended up deploying the project on Netlify instead to take advantage of Netlify automatically redirecting http traffic to https for all hosting plans.
 
 ---
 
