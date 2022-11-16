@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from 'react';
 import useSocket from 'use-socket.io-client';
 import Board, { playAudio, highlightWin, resetHighlight } from './components/board/Board';
@@ -11,9 +10,9 @@ const muteSVG = require('./static/mute.svg');
 
 const RandomGame = (props)=>{
     // DEVELOPMENT: 
-    // const [ socket ] = useSocket(`localhost:5005`, {autoConnect: false});
+    const [ socket ] = useSocket(`localhost:5005`, {autoConnect: false});
     // PRODUCTION:
-    const [ socket ] = useSocket(process.env.REACT_APP_SERVER_URL, {autoConnect: false});
+    // const [ socket ] = useSocket(process.env.REACT_APP_SERVER_URL, {autoConnect: false});
 
     const [ ready, setReady ] = useState(false);
     const [ client, setClient ] = useState(``);
@@ -59,7 +58,7 @@ const RandomGame = (props)=>{
             updateGameState(initialGame)
             console.log(`Game ready`)
         })
-    }, [])
+    }, [socket])
 
 
     useEffect(()=>{
@@ -107,7 +106,7 @@ const RandomGame = (props)=>{
             window.removeEventListener('beforeunload', ()=> socket.emit(`quit`, {game}) )
             document.getElementById('menu').removeEventListener('click', ()=> socket.emit(`quit`, {game}) )
         }
-    }, [game, client])
+    }, [game, client, lastWin, socket])
 
     const handleClick = (e) =>{
         if(client === player && !winner && !draw){
