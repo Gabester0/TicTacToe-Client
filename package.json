@@ -2,7 +2,7 @@
   "name": "tic-tac-toe",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3000/",
+  "proxy": "http://localhost:5005",
   "homepage": "https://eipper-tictactoe.herokuapp.com/",
   "engines": {
     "yarn": "1.22.4",
