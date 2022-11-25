@@ -10,9 +10,9 @@ const muteSVG = require('./static/mute.svg');
 
 const RandomGame = (props)=>{
     // DEVELOPMENT: 
-    const [ socket ] = useSocket(`http://localhost:5005`, {autoConnect: false});
+    // const [ socket ] = useSocket(`http://localhost:5005`, {autoConnect: false});
     // PRODUCTION:
-    // const [ socket ] = useSocket(process.env.REACT_APP_SERVER_URL, {autoConnect: false});
+    const [ socket ] = useSocket(process.env.REACT_APP_SERVER_URL, {autoConnect: false});
 
     const [ ready, setReady ] = useState(false);
     const [ client, setClient ] = useState(``);
