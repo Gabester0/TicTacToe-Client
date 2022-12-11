@@ -105,7 +105,7 @@ const RandomGame = (props)=>{
 
         return ()=>{
             window.removeEventListener('beforeunload', ()=> socket.emit(`quit`, {game}) )
-            document.getElementById('menu').removeEventListener('click', ()=> socket.emit(`quit`, {game}) )
+            document.getElementById('menu')?.removeEventListener('click', ()=> socket.emit(`quit`, {game}) )
         }
     }, [game, client, lastWin, socket])
 

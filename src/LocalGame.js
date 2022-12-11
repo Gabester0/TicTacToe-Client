@@ -70,7 +70,7 @@ const LocalGame = (props)=> {
     }
 
     const volumeSVG = require('./static/volume.svg');
-    const muteSVG = require('./static/mute.svg');
+    const muteSVG = require('../static/mute.svg');
 
     const toggleSound = ()=>{
         const sound = sessionStorage.getItem('sound');
