@@ -41,6 +41,10 @@ const RandomGame = (props)=>{
     useEffect( ()=>{
         socket.connect();
 
+        socket.on('connect_error', (err) => {
+            console.log({err})
+        })
+
         socket.on('connection', (socket)=>{
             console.log(`Socket Connected!`, socket.connected)
         })
