@@ -5,6 +5,10 @@ import ConfettiCannon from './components/confettiCannon/ConfettiCannon';
 import { StaticDiv, StyledH5Two, Btn, Cannon, Sound } from './AppStyles';
 import { delayFunction } from './utility/utilities';
 
+import mute from './static/mute.svg';
+import volume from './static/volume.svg';
+import StubbyCannon from './static/StubbyCannon.svg';
+
 const LocalGame = (props)=> {
     const [player, setPlayer] = useState("X");
     const [board, setBoard] = useState( { ...Array(9).fill(null) } ); //server
@@ -69,14 +73,11 @@ const LocalGame = (props)=> {
         setDelay(false)
     }
 
-    const volumeSVG = require('./static/volume.svg');
-    const muteSVG = require('./static/mute.svg');
-
     const toggleSound = ()=>{
         const sound = sessionStorage.getItem('sound');
         const newSound = sound === 'true' ? `false` : `true`;
-        sessionStorage.setItem('sound', newSound)
-        document.getElementById('soundSVG').src = newSound === 'true' ? volumeSVG : muteSVG
+        sessionStorage.setItem('sound', newSound);
+        document.getElementById('soundSVG').src = newSound === 'true' ? volume : mute;
     }
 
     const confettiAnchorRef = useRef();
@@ -90,11 +91,11 @@ const LocalGame = (props)=> {
             </StaticDiv>
             <Btn onClick={resetBoard}>{ winner || draw ? `Play again` : `Restart`}</Btn>
             <Btn onClick={props.menu}>Back to menu</Btn>
-            <Btn id="sound" onClick={toggleSound}><Sound id="soundSVG" alt="sound" src={sessionStorage.getItem('sound') === 'true' ? volumeSVG : muteSVG}/></Btn>
+            <Btn id="sound" onClick={toggleSound}><Sound id="soundSVG" alt="sound" src={sessionStorage.getItem('sound') === 'true' ? volume : mute} /></Btn>
             <Board handleClick={handleClick} board={board} />
             <Cannon
                 show={winner}
-                src={require('./static/StubbyCannon.svg')} 
+                src={StubbyCannon} 
                 alt="confetti canon"
                 ref={confettiAnchorRef} />
             {winner && delay && (

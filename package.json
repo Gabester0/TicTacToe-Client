@@ -2,7 +2,7 @@
   "name": "tic-tac-toe",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://eipper-tictactoe.herokuapp.com/",
+  "homepage": "https://eipper-tictactoe.netlify.app/",
   "engines": {
     "yarn": "1.22.4",
     "node": "16.16.0"
@@ -17,12 +17,11 @@
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "react-spring": "^8.0.27",
-    "socket.io-client": "^4.5.3",
-    "styled-components": "^5.1.1",
-    "use-socket.io-client": "^1.1.0"
+    "socket.io-client": "4.5.3",
+    "styled-components": "^5.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts --max-http-header-size=77777 start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

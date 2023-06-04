@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import useSocket from 'use-socket.io-client';
+// import useSocket from 'use-socket.io-client';
+import io from 'socket.io-client';
 import Board, { playAudio, highlightWin, resetHighlight } from './components/board/Board';
 import ConfettiCannon from './components/confettiCannon/ConfettiCannon';
 import { StaticDiv, StyledH5One, StyledH5Two, Btn, Cannon, Sound } from './AppStyles';
@@ -8,12 +9,21 @@ import { delayFunction } from './utility/utilities';
 const volumeSVG = require('./static/volume.svg');
 const muteSVG = require('./static/mute.svg');
 
+// const socket = io('http://localhost:5005');
+
 const RandomGame = (props)=>{
+    const { current: socket } = useRef(io('http://localhost:5005'));
+    useEffect(() => {
+      return () => {
+        socket && socket.removeAllListeners();
+        socket && socket.close();
+      };
+    }, [socket]);
     // DEVELOPMENT: 
     // const [ socket ] = useSocket(`http://localhost:5005`, {autoConnect: false});
     // PRODUCTION:
-    const [ socket ] = useSocket(process.env.REACT_APP_SERVER_URL, {autoConnect: false});
-
+    // const [ socket ] = useSocket(process.env.REACT_APP_SERVER_URL, {autoConnect: false});
+    const [ isConnected, setIsConnected ] = useState(socket.connected);
     const [ ready, setReady ] = useState(false);
     const [ client, setClient ] = useState(``);
     const [ game, setGame ] = useState();
@@ -38,13 +48,14 @@ const RandomGame = (props)=>{
         setWinner(gameState.winner)
     }
 
-    useEffect( ()=>{
-        socket.connect();
-
-        socket.on('connection', (socket)=>{
-            console.log(`Socket Connected!`, socket.connected)
+    useEffect(() => {
+        socket.on('connect', () => {
+            setIsConnected(true);
+            console.log("Connected")
+        });
+        socket.on("connect_error", (err) => {
+            console.log({err})
         })
-
         socket.on("join", ({note, game, player, status})=>{
             setClient(player)
             sessionStorage.setItem('client', player)
@@ -59,7 +70,38 @@ const RandomGame = (props)=>{
             updateGameState(initialGame)
             console.log(`Game ready`)
         })
-    }, [socket])
+    }, [socket]);
+
+    useEffect(() => {
+        console.log({isConnected})
+    }, [isConnected])
+
+    // useEffect( ()=>{
+    //     socket.connect();
+
+    //     socket.on('connect_error', (err) => {
+    //         console.log({err})
+    //     })
+
+    //     socket.on('connection', (socket)=>{
+    //         console.log(`Socket Connected!`, socket.connected)
+    //     })
+
+    //     socket.on("join", ({note, game, player, status})=>{
+    //         setClient(player)
+    //         sessionStorage.setItem('client', player)
+    //         console.log(`Updated client to ${player}`)
+    //         setGame(game)
+    //         console.log("Client is Playing as:  ", player, note, game, status)
+    //     })
+        
+    //     socket.on("start", (initialGame)=>{
+    //         console.log("Start emitted")
+    //         setReady(true)
+    //         updateGameState(initialGame)
+    //         console.log(`Game ready`)
+    //     })
+    // }, [socket])
 
 
     useEffect(()=>{
@@ -105,9 +147,9 @@ const RandomGame = (props)=>{
 
         return ()=>{
             window.removeEventListener('beforeunload', ()=> socket.emit(`quit`, {game}) )
-            document.getElementById('menu').removeEventListener('click', ()=> socket.emit(`quit`, {game}) )
+            document.getElementById('menu')?.removeEventListener('click', ()=> socket.emit(`quit`, {game}) )
         }
-    }, [game, client, lastWin, socket])
+    }, [socket, game, client, lastWin])
 
     const handleClick = (e) =>{
         if(client === player && !winner && !draw){
