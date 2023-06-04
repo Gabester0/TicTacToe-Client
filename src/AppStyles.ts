@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Player } from './types';
 
 export const AppDiv = styled.div`
     text-align: center;
@@ -24,7 +25,13 @@ export const StyledH1 = styled.h1`
     font-size: 2.5rem;
 `;
 
-export const StyledH5One = styled.h5`
+interface StyledH5Props {
+    draw: Boolean;
+    winner: Boolean;
+    player: Player;
+}
+
+export const StyledH5One = styled.h5<StyledH5Props>`
     margin: 0 20px;
     font-size: ${ props => (props.winner || props.draw) ? "24px" : "20px" };
     color: ${props=>
@@ -37,14 +44,14 @@ export const StyledH5One = styled.h5`
     }
 `;
 
-export const StyledH5Two = styled.h5`
+export const StyledH5Two = styled.h5<StyledH5Props>`
     margin: 0 20px;
     font-size: ${ props => (props.winner || props.draw) ? "24px" : "20px" };
     transition: all .4s;
     color: ${ props =>
         props.draw ?
             "#390040" :
-                props.player ?
+                props.player === "X" ?
                     "#bd0000" :
                         "#4464AD"
     };

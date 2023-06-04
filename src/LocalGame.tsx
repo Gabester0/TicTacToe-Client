@@ -8,21 +8,22 @@ import { delayFunction } from './utility/utilities';
 import mute from './static/mute.svg';
 import volume from './static/volume.svg';
 import StubbyCannon from './static/StubbyCannon.svg';
+import { IBoard, Player } from './types';
 
 const LocalGame = (props)=> {
-    const [player, setPlayer] = useState("X");
-    const [board, setBoard] = useState( { ...Array(9).fill(null) } ); //server
-    const [xmoves, setXMoves] = useState([]);
-    const [omoves, setOMoves] = useState([]);
-    const [winner, setWinner] = useState(false);
-    const [draw, setDraw] = useState(false);
-    const [lastWin, setLastWin] = useState([]);
-    const [delay, setDelay] = useState(false);
+    const [player, setPlayer] = useState<Player>("X");
+    const [board, setBoard] = useState<IBoard>( { ...Array(9).fill(null) } ); //server
+    const [xmoves, setXMoves] = useState<number[]>([]);
+    const [omoves, setOMoves] = useState<number[]>([]);
+    const [winner, setWinner] = useState<boolean>(false);
+    const [draw, setDraw] = useState<boolean>(false);
+    const [lastWin, setLastWin] = useState<Player[]>([]);
+    const [delay, setDelay] = useState<boolean>(false);
     const solutions = [ [0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6] ];  //server
     //Store users sound setting in sessionStorage
-    const existingSound = sessionStorage.getItem('sound')
-    const value = existingSound ? existingSound : true
-    sessionStorage.setItem('sound', value)
+    const soundPreference = sessionStorage.getItem('sound')
+    const isSoundOn = soundPreference ? soundPreference : 'true';
+    sessionStorage.setItem('sound', isSoundOn)
 
     useEffect( ()=>{
         const win = checkWinner();
@@ -77,7 +78,8 @@ const LocalGame = (props)=> {
         const sound = sessionStorage.getItem('sound');
         const newSound = sound === 'true' ? `false` : `true`;
         sessionStorage.setItem('sound', newSound);
-        document.getElementById('soundSVG').src = newSound === 'true' ? volume : mute;
+        const soundBtn = document.getElementById('soundSVG') as HTMLImageElement;
+        soundBtn.src = newSound === 'true' ? volume : mute;
     }
 
     const confettiAnchorRef = useRef();
@@ -85,7 +87,7 @@ const LocalGame = (props)=> {
     return (
         <>
             <StaticDiv>
-                <StyledH5Two draw={draw} winner={winner} player={(player === "X")}>
+                <StyledH5Two draw={draw} winner={winner} player={player}>
                 {  draw ? `The game is a draw` : !winner ? `Current Player: ${player}` : `Player ${player} is the winner!`}
                 </StyledH5Two>
             </StaticDiv>
@@ -97,7 +99,8 @@ const LocalGame = (props)=> {
                 show={winner}
                 src={StubbyCannon} 
                 alt="confetti canon"
-                ref={confettiAnchorRef} />
+                ref={confettiAnchorRef}
+            />
             {winner && delay && (
                 <ConfettiCannon 
                     anchorRef={confettiAnchorRef}
