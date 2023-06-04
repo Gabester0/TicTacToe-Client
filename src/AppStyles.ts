@@ -81,7 +81,11 @@ export const Sound = styled.img`
     color: #390040;
 `;
 
-export const Cannon = styled.img`
+interface CannonProps {
+    show: Boolean;
+}
+
+export const Cannon = styled.img<CannonProps>`
     width: auto;
     height: 100px;
     transition: all 1s;

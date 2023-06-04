@@ -82,7 +82,7 @@ const LocalGame = (props)=> {
         soundBtn.src = newSound === 'true' ? volume : mute;
     }
 
-    const confettiAnchorRef = useRef();
+    const confettiAnchorRef = useRef<HTMLImageElement>(null);
 
     return (
         <>
