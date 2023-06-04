@@ -1,6 +1,16 @@
 import styled from 'styled-components';
 import { Player } from './types';
 
+interface StyledH5Props {
+    draw: Boolean;
+    winner: Boolean;
+    player: Player;
+}
+
+interface CannonProps {
+    show: Boolean;
+}
+
 export const AppDiv = styled.div`
     text-align: center;
     color: #390040;
@@ -25,11 +35,6 @@ export const StyledH1 = styled.h1`
     font-size: 2.5rem;
 `;
 
-interface StyledH5Props {
-    draw: Boolean;
-    winner: Boolean;
-    player: Player;
-}
 
 export const StyledH5One = styled.h5<StyledH5Props>`
     margin: 0 20px;
@@ -80,10 +85,6 @@ export const Sound = styled.img`
     height: 14px;
     color: #390040;
 `;
-
-interface CannonProps {
-    show: Boolean;
-}
 
 export const Cannon = styled.img<CannonProps>`
     width: auto;
