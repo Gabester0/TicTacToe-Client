@@ -10,7 +10,7 @@ import volume from './static/volume.svg';
 import StubbyCannon from './static/StubbyCannon.svg';
 import { IBoard, Player } from './types';
 
-const LocalGame = (props)=> {
+export const LocalGame = (props)=> {
     const [player, setPlayer] = useState<Player>("X");
     const [board, setBoard] = useState<IBoard>( { ...Array(9).fill(null) } ); //server
     const [xmoves, setXMoves] = useState<number[]>([]);
@@ -110,5 +110,3 @@ const LocalGame = (props)=> {
         </>
     );
 }
-
-export default LocalGame;

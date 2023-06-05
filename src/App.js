@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AppDiv, StyledH1 } from './AppStyles';
-import LocalGame from './LocalGame';
+import { LocalGame } from './LocalGame';
 import RandomGame from './RandomGame';
 import Menu from './components/menu/Menu';
 
