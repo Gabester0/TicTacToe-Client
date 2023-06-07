@@ -39,16 +39,28 @@ interface RandomGameProps {
 // };
 
 interface GameState {
-    game: number | "";
+    game?: number;
     board: IBoard;
-    player: Player | "";
-    lastMove: number | null;
-    xmoves: number[];
-    omoves: number[];
+    player?: Player;
+    lastMove?: number;
+    xMoves: number[];
+    oMoves: number[];
     winner: boolean;
     draw: boolean;
     match: number[];
 }
+
+const initialGameState = {
+    // game: ``,
+    board: { ...Array(9).fill(null) },
+    // player: ``,
+    // lastMove: undefined,
+    xMoves: [],
+    oMoves: [],
+    winner: false,
+    draw: false,
+    match: [],
+};
 
 const RandomGame = (props: RandomGameProps): JSX.Element => {
     const { current: socket } = useRef(io("http://localhost:5005"));
@@ -65,6 +77,8 @@ const RandomGame = (props: RandomGameProps): JSX.Element => {
     const [isConnected, setIsConnected] = useState<boolean>(socket.connected);
     const [ready, setReady] = useState<boolean>(false);
     const [client, setClient] = useState<Player | "">("");
+    const [localGameState, setLocalGameState] =
+        useState<GameState>(initialGameState);
     const [game, setGame] = useState<number | "">();
     const [board, setBoard] = useState<IBoard>({ ...Array(9).fill(null) });
     const [player, setPlayer] = useState<Player | "">("");
@@ -79,13 +93,13 @@ const RandomGame = (props: RandomGameProps): JSX.Element => {
     const isSoundOn = soundPreference ? soundPreference : "true";
     sessionStorage.setItem("sound", isSoundOn);
 
-    const updateGameState = (gameState: GameState) => {
-        setGame(gameState.game);
-        setBoard(gameState.board);
-        setPlayer(gameState.player);
-        setDraw(gameState.draw);
-        setWinner(gameState.winner);
-    };
+    // const updateGameState = (gameState: GameState) => {
+    //     setGame(gameState.game);
+    //     setBoard(gameState.board);
+    //     setPlayer(gameState.player);
+    //     setDraw(gameState.draw);
+    //     setWinner(gameState.winner);
+    // };
 
     useEffect(() => {
         socket.on("connect", () => {
@@ -106,7 +120,10 @@ const RandomGame = (props: RandomGameProps): JSX.Element => {
         socket.on("start", (initialGame) => {
             console.log("Start emitted");
             setReady(true);
-            updateGameState(initialGame);
+            setLocalGameState({
+                ...localGameState,
+                ...initialGame,
+            });
             console.log(`Game ready`);
         });
     }, [socket]);
@@ -146,11 +163,17 @@ const RandomGame = (props: RandomGameProps): JSX.Element => {
         socket.on(`clicked`, (gameState) => {
             // Handle receiving emitted click from server
             console.log(`Back from the server: `, gameState);
-            updateGameState(gameState);
+            setLocalGameState({
+                ...localGameState,
+                ...gameState,
+            });
         });
 
         socket.on(`gameOver`, (gameState) => {
-            updateGameState(gameState);
+            setLocalGameState({
+                ...localGameState,
+                ...gameState,
+            });
             console.log(gameState);
             if (gameState.winner) {
                 highlightWin(
@@ -216,18 +239,7 @@ const RandomGame = (props: RandomGameProps): JSX.Element => {
     };
 
     const handlePlayAgain = () => {
-        const resetGameState = {
-            game: ``,
-            board: { ...Array(9).fill(null) },
-            player: ``,
-            lastMove: null,
-            xMoves: [],
-            oMoves: [],
-            winner: false,
-            draw: false,
-            match: [],
-        };
-        updateGameState(resetGameState);
+        setLocalGameState(initialGameState);
         setReady(false);
         setQuit(false);
         setDelay(false);
