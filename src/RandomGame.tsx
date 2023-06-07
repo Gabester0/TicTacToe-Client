@@ -26,6 +26,29 @@ const muteSVG = require("./static/mute.svg");
 interface RandomGameProps {
     menu: () => void;
 }
+// const resetGameState = {
+//     game: ``,
+//     board: { ...Array(9).fill(null) },
+//     player: ``,
+//     lastMove: null,
+//     xMoves: [],
+//     oMoves: [],
+//     winner: false,
+//     draw: false,
+//     match: [],
+// };
+
+interface GameState {
+    game: number | "";
+    board: IBoard;
+    player: Player | "";
+    lastMove: number | null;
+    xmoves: number[];
+    omoves: number[];
+    winner: boolean;
+    draw: boolean;
+    match: number[];
+}
 
 const RandomGame = (props: RandomGameProps): JSX.Element => {
     const { current: socket } = useRef(io("http://localhost:5005"));
@@ -41,10 +64,10 @@ const RandomGame = (props: RandomGameProps): JSX.Element => {
     // const [ socket ] = useSocket(process.env.REACT_APP_SERVER_URL, {autoConnect: false});
     const [isConnected, setIsConnected] = useState<boolean>(socket.connected);
     const [ready, setReady] = useState<boolean>(false);
-    const [client, setClient] = useState<Player | ``>(``);
-    const [game, setGame] = useState<number | ``>();
+    const [client, setClient] = useState<Player | "">("");
+    const [game, setGame] = useState<number | "">();
     const [board, setBoard] = useState<IBoard>({ ...Array(9).fill(null) });
-    const [player, setPlayer] = useState<Player | ``>(``);
+    const [player, setPlayer] = useState<Player | "">("");
     const [winner, setWinner] = useState<boolean>(false);
     const [draw, setDraw] = useState<boolean>(false);
     const [delay, setDelay] = useState<boolean>(false);
@@ -56,7 +79,7 @@ const RandomGame = (props: RandomGameProps): JSX.Element => {
     const isSoundOn = soundPreference ? soundPreference : "true";
     sessionStorage.setItem("sound", isSoundOn);
 
-    const updateGameState = (gameState) => {
+    const updateGameState = (gameState: GameState) => {
         setGame(gameState.game);
         setBoard(gameState.board);
         setPlayer(gameState.player);
@@ -179,7 +202,7 @@ const RandomGame = (props: RandomGameProps): JSX.Element => {
         };
     }, [socket, game, client, lastWin]);
 
-    const handleClick = (e) => {
+    const handleClick = (e: Event & { target: HTMLDivElement }) => {
         if (client === player && !winner && !draw) {
             const sound = sessionStorage.getItem("sound");
             if (sound === "true") playAudio(`clickAudio`, 0.4);
@@ -208,11 +231,11 @@ const RandomGame = (props: RandomGameProps): JSX.Element => {
         setReady(false);
         setQuit(false);
         setDelay(false);
-        setGame(``);
+        setGame("");
         if (lastWin.length >= 1) resetHighlight(lastWin[lastWin.length - 1]);
         console.log(`Initiating another game`);
         socket.emit(`initiatePlayAgain`, { game, client });
-        setClient(``);
+        setClient("");
         sessionStorage.removeItem("client");
     };
 
@@ -220,22 +243,21 @@ const RandomGame = (props: RandomGameProps): JSX.Element => {
         const sound = sessionStorage.getItem("sound");
         const newSound = sound === "true" ? `false` : `true`;
         sessionStorage.setItem("sound", newSound);
-        document.getElementById("soundSVG").src =
-            newSound === "true" ? volumeSVG : muteSVG;
+        const soundBtn = document.getElementById(
+            "soundSVG"
+        ) as HTMLImageElement;
+        soundBtn.src = newSound === "true" ? volumeSVG : muteSVG;
     };
 
     const confettiAnchorRef = useRef(null);
+
     return (
         <>
             <StaticDiv>
                 <StyledH5One draw={draw} winner={winner} player={client}>
                     {`You are player ${client}`}
                 </StyledH5One>
-                <StyledH5Two
-                    draw={draw}
-                    winner={winner}
-                    player={player === "X"}
-                >
+                <StyledH5Two draw={draw} winner={winner} player={player}>
                     {ready &&
                         (draw
                             ? `The game is a draw`

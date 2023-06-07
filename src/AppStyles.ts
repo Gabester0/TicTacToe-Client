@@ -4,7 +4,7 @@ import { Player } from "./types";
 interface StyledH5Props {
     draw: Boolean;
     winner: Boolean;
-    player: Player;
+    player: Player | "";
 }
 
 interface CannonProps {
