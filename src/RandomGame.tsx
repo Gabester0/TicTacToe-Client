@@ -26,17 +26,6 @@ const muteSVG = require("./static/mute.svg");
 interface RandomGameProps {
     menu: () => void;
 }
-// const resetGameState = {
-//     game: ``,
-//     board: { ...Array(9).fill(null) },
-//     player: ``,
-//     lastMove: null,
-//     xMoves: [],
-//     oMoves: [],
-//     winner: false,
-//     draw: false,
-//     match: [],
-// };
 
 interface GameState {
     game?: number;
@@ -79,11 +68,11 @@ const RandomGame = (props: RandomGameProps): JSX.Element => {
     const [client, setClient] = useState<Player | "">("");
     const [localGameState, setLocalGameState] =
         useState<GameState>(initialGameState);
-    const [game, setGame] = useState<number | "">();
-    const [board, setBoard] = useState<IBoard>({ ...Array(9).fill(null) });
-    const [player, setPlayer] = useState<Player | "">("");
-    const [winner, setWinner] = useState<boolean>(false);
-    const [draw, setDraw] = useState<boolean>(false);
+    // const [game, setGame] = useState<number | "">();
+    // const [board, setBoard] = useState<IBoard>({ ...Array(9).fill(null) });
+    // const [player, setPlayer] = useState<Player | "">("");
+    // const [winner, setWinner] = useState<boolean>(false);
+    // const [draw, setDraw] = useState<boolean>(false);
     const [delay, setDelay] = useState<boolean>(false);
     const [lastWin, setLastWin] = useState<Player[]>([]);
     const [quit, setQuit] = useState<boolean>(false);
@@ -113,7 +102,7 @@ const RandomGame = (props: RandomGameProps): JSX.Element => {
             setClient(player);
             sessionStorage.setItem("client", player);
             console.log(`Updated client to ${player}`);
-            setGame(game);
+            setLocalGameState({ ...localGameState, game });
             console.log("Client is Playing as:  ", player, note, game, status);
         });
 
@@ -202,39 +191,47 @@ const RandomGame = (props: RandomGameProps): JSX.Element => {
         });
 
         //Ensures this only runs once when game value has been set
-        if (typeof game === `number`) {
+        if (localGameState.game) {
             window.addEventListener("beforeunload", () =>
-                socket.emit(`quit`, { game })
+                socket.emit(`quit`, { game: localGameState.game })
             );
             document.getElementById("menu")?.addEventListener("click", () => {
                 sessionStorage.removeItem("client");
-                socket.emit(`quit`, { game });
+                socket.emit(`quit`, { game: localGameState.game });
                 console.log(`Emitting Quit Event`);
             });
         }
 
         return () => {
             window.removeEventListener("beforeunload", () =>
-                socket.emit(`quit`, { game })
+                socket.emit(`quit`, { game: localGameState.game })
             );
             document
                 .getElementById("menu")
                 ?.removeEventListener("click", () =>
-                    socket.emit(`quit`, { game })
+                    socket.emit(`quit`, { game: localGameState.game })
                 );
         };
-    }, [socket, game, client, lastWin]);
+    }, [socket, localGameState.game, client, lastWin]);
 
     const handleClick = (e: Event & { target: HTMLDivElement }) => {
-        if (client === player && !winner && !draw) {
+        if (
+            client === localGameState.player &&
+            !localGameState.winner &&
+            !localGameState.draw
+        ) {
             const sound = sessionStorage.getItem("sound");
             if (sound === "true") playAudio(`clickAudio`, 0.4);
             console.log(`Emitting click: `, {
-                game,
+                game: localGameState.game,
                 client,
                 click: e.target.id,
             });
-            socket.emit(`click`, { game, client, click: e.target.id });
+            socket.emit(`click`, {
+                game: localGameState.game,
+                client,
+                click: e.target.id,
+            });
         }
     };
 
@@ -243,10 +240,10 @@ const RandomGame = (props: RandomGameProps): JSX.Element => {
         setReady(false);
         setQuit(false);
         setDelay(false);
-        setGame("");
+        // setGame("");
         if (lastWin.length >= 1) resetHighlight(lastWin[lastWin.length - 1]);
         console.log(`Initiating another game`);
-        socket.emit(`initiatePlayAgain`, { game, client });
+        socket.emit(`initiatePlayAgain`, { game: localGameState.game, client });
         setClient("");
         sessionStorage.removeItem("client");
     };
@@ -266,22 +263,30 @@ const RandomGame = (props: RandomGameProps): JSX.Element => {
     return (
         <>
             <StaticDiv>
-                <StyledH5One draw={draw} winner={winner} player={client}>
+                <StyledH5One
+                    draw={localGameState.draw}
+                    winner={localGameState.winner}
+                    player={client}
+                >
                     {`You are player ${client}`}
                 </StyledH5One>
-                <StyledH5Two draw={draw} winner={winner} player={player}>
+                <StyledH5Two
+                    draw={localGameState.draw}
+                    winner={localGameState.winner}
+                    player={localGameState.player}
+                >
                     {ready &&
-                        (draw
+                        (localGameState.draw
                             ? `The game is a draw`
-                            : !winner
-                            ? `Player ${player}'s turn`
-                            : `Player ${player} is the winner!`)}
+                            : !localGameState.winner
+                            ? `Player ${localGameState.player}'s turn`
+                            : `Player ${localGameState.player} is the winner!`)}
                 </StyledH5Two>
             </StaticDiv>
             <Btn id="menu" onClick={props.menu}>
                 Back to menu
             </Btn>
-            {(winner || draw || quit) && (
+            {(localGameState.winner || localGameState.draw || quit) && (
                 <Btn onClick={handlePlayAgain}>Play Again</Btn>
             )}
             <Btn id="sound" onClick={toggleSound}>
@@ -297,20 +302,24 @@ const RandomGame = (props: RandomGameProps): JSX.Element => {
             </Btn>
             <h2>{!ready && !quit && `Waiting for second player`}</h2>
             <h2>{quit && `The other player left the game`}</h2>
-            {ready && <Board handleClick={handleClick} board={board} />}
+            {ready && (
+                <Board handleClick={handleClick} board={localGameState.board} />
+            )}
             <Cannon
-                show={winner && player === client}
+                show={localGameState.winner && localGameState.player === client}
                 src={require("./static/StubbyCannon.svg")}
                 alt="confetti canon"
                 ref={confettiAnchorRef}
             />
-            {winner && player === client && delay && (
-                <ConfettiCannon
-                    anchorRef={confettiAnchorRef}
-                    dotCount={50}
-                    colors={["red", "green", "blue", "yellow"]}
-                />
-            )}
+            {localGameState.winner &&
+                localGameState.player === client &&
+                delay && (
+                    <ConfettiCannon
+                        anchorRef={confettiAnchorRef}
+                        dotCount={50}
+                        colors={["red", "green", "blue", "yellow"]}
+                    />
+                )}
         </>
     );
 };
