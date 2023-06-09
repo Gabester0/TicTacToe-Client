@@ -15,8 +15,8 @@ import {
     Cannon,
     Sound,
 } from "./AppStyles";
-import { delayFunction } from "./utility/utilities";
 import { IBoard, Player } from "./types";
+import { delayAudio, delaySetState } from "./utility/utilities";
 
 const volumeSVG = require("./static/volume.svg");
 const muteSVG = require("./static/mute.svg");
@@ -174,10 +174,10 @@ const RandomGame = (props: RandomGameProps): JSX.Element => {
                 //&& player === client
                 const client = sessionStorage.getItem("client");
                 if (gameState.player === client) {
-                    delayFunction(1225, setDelay, true);
+                    delaySetState(1225, setDelay, true);
                     const sound = sessionStorage.getItem("sound");
                     if (sound === "true") {
-                        delayFunction(1050, playAudio, "popAudio");
+                        delayAudio(1050, playAudio, "popAudio");
                     }
                 }
             }

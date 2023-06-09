@@ -7,7 +7,7 @@ import Board, {
 } from "./components/board/Board";
 import ConfettiCannon from "./components/confettiCannon/ConfettiCannon";
 import { StaticDiv, StyledH5Two, Btn, Cannon, Sound } from "./AppStyles";
-import { delayFunction } from "./utility/utilities";
+import { delayAudio, delaySetState } from "./utility/utilities";
 
 import mute from "./static/mute.svg";
 import volume from "./static/volume.svg";
@@ -72,10 +72,10 @@ export const LocalGame = (props: LocalGameProps): JSX.Element => {
             let match = currentMoves.filter((e) => solutions[i].includes(e));
             if (match.length === 3) {
                 highlightWin(match, setLastWin, lastWin, player);
-                delayFunction(1225, setDelay, !delay);
+                delaySetState(1225, setDelay, !delay);
                 const sound = sessionStorage.getItem("sound");
                 if (sound === "true") {
-                    delayFunction(1050, playAudio, "popAudio");
+                    delayAudio(1050, playAudio, "popAudio");
                 }
                 return true;
             }
