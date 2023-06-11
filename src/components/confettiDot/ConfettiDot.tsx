@@ -69,8 +69,12 @@ const Square = ({
 };
 
 const getRandomShape = (color: string, size: number) => {
-    const Shape = randomFromArray([Circle, Triangle, Square]);
-    return <Shape color={color} size={size} />;
+    const Shape = randomFromArray([
+        Circle({ color, size }),
+        Triangle({ color, size }),
+        Square({ color, size }),
+    ]);
+    return Shape;
 };
 
 const Dot = ({
