@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, MouseEventHandler } from "react";
 import Board, {
     playAudio,
     highlightWin,
@@ -25,7 +25,7 @@ export const LocalGame = (props: LocalGameProps): JSX.Element => {
     const [omoves, setOMoves] = useState<number[]>([]);
     const [winner, setWinner] = useState<boolean>(false);
     const [draw, setDraw] = useState<boolean>(false);
-    const [lastWin, setLastWin] = useState<Player[]>([]);
+    const [lastWin, setLastWin] = useState<number[][]>([]);
     const [delay, setDelay] = useState<boolean>(false);
     const solutions = [
         [0, 1, 2],
@@ -50,8 +50,11 @@ export const LocalGame = (props: LocalGameProps): JSX.Element => {
             setPlayer((player) => (player === "X" ? "O" : "X")); //Conditional logic keeps extra render from toggling player before first move
     }, [board, xmoves, omoves]);
 
-    const handleClick = (e: Event & { target: HTMLDivElement }) => {
-        const curr = parseInt(e.target.id);
+    const handleClick: MouseEventHandler<HTMLDivElement> = (
+        e: React.MouseEvent<Element, MouseEvent>
+    ) => {
+        const target = e.target as HTMLButtonElement;
+        const curr = parseInt(target.id);
         if (board[curr] === null && !winner) {
             const sound = sessionStorage.getItem("sound");
             if (sound === "true") playAudio(`clickAudio`, 0.4);

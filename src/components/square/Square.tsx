@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MouseEventHandler } from "react";
 import { Player } from "../../types";
 import { SquareDiv } from "./SquareStyles";
 
@@ -9,7 +9,7 @@ const Square = ({
 }: {
     id: string;
     value: Player;
-    click: () => void;
+    click: MouseEventHandler<HTMLDivElement>;
 }): JSX.Element => {
     return (
         <SquareDiv className="square" id={id} onClick={click}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, MouseEventHandler } from "react";
 // import useSocket from 'use-socket.io-client';
 import io from "socket.io-client";
 import Board, {
@@ -74,7 +74,7 @@ const RandomGame = (props: RandomGameProps): JSX.Element => {
     // const [winner, setWinner] = useState<boolean>(false);
     // const [draw, setDraw] = useState<boolean>(false);
     const [delay, setDelay] = useState<boolean>(false);
-    const [lastWin, setLastWin] = useState<Player[]>([]);
+    const [lastWin, setLastWin] = useState<number[][]>([]);
     const [quit, setQuit] = useState<boolean>(false);
 
     //Store users sound setting in sessionStorage
@@ -184,6 +184,7 @@ const RandomGame = (props: RandomGameProps): JSX.Element => {
         });
 
         socket.on(`quit`, () => {
+            "*.wav";
             console.log(`The other player has quit`);
             setReady(false);
             setQuit(true);
@@ -214,23 +215,27 @@ const RandomGame = (props: RandomGameProps): JSX.Element => {
         };
     }, [socket, localGameState.game, client, lastWin]);
 
-    const handleClick = (e: Event & { target: HTMLDivElement }) => {
+    const handleClick: MouseEventHandler<HTMLDivElement> = (
+        e: React.MouseEvent<Element, MouseEvent>
+    ) => {
         if (
             client === localGameState.player &&
             !localGameState.winner &&
             !localGameState.draw
         ) {
             const sound = sessionStorage.getItem("sound");
+            const target = e.target as HTMLButtonElement;
+
             if (sound === "true") playAudio(`clickAudio`, 0.4);
             console.log(`Emitting click: `, {
                 game: localGameState.game,
                 client,
-                click: e.target.id,
+                click: target.id,
             });
             socket.emit(`click`, {
                 game: localGameState.game,
                 client,
-                click: e.target.id,
+                click: target.id,
             });
         }
     };
