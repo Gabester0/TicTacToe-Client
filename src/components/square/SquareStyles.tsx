@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const SquareDiv = styled.div`
     border: 1px solid #390040;
@@ -10,4 +10,4 @@ export const SquareDiv = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-`
+`;
