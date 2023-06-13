@@ -145,8 +145,8 @@ export const LocalGame = (props: LocalGameProps): JSX.Element => {
             {winner && delay && (
                 <ConfettiCannon
                     anchorRef={confettiAnchorRef}
-                    dotCount={50}
                     colors={["red", "green", "blue", "yellow"]}
+                    dotCount={50}
                 />
             )}
         </>

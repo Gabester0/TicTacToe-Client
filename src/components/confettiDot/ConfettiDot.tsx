@@ -9,7 +9,7 @@ import { StyledConfettiDotDiv } from "./ConfettiDotStyles";
 
 const AnimatedConfettiDot = animated(StyledConfettiDotDiv);
 
-const alignWithAnchor = (anchorRef: RefObject<HTMLAnchorElement>) => {
+const alignWithAnchor = (anchorRef: RefObject<HTMLImageElement>) => {
     if (anchorRef.current == null) {
         return {
             initialX: 0,
@@ -78,7 +78,7 @@ const getRandomShape = (color: string, size: number) => {
 };
 
 interface DotProps {
-    anchorRef: RefObject<HTMLAnchorElement>;
+    anchorRef: RefObject<HTMLImageElement>;
     color: string;
     initialHorizontal: number;
     initialVertical: number;

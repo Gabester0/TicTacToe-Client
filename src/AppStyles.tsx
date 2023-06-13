@@ -1,3 +1,4 @@
+import { RefObject } from "react";
 import styled from "styled-components";
 import { Player } from "./types";
 
@@ -9,6 +10,7 @@ interface StyledH5Props {
 
 interface CannonProps {
     show: Boolean;
+    ref: RefObject<HTMLImageElement>;
 }
 
 export const AppDiv = styled.div`
