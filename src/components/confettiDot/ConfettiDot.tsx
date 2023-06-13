@@ -77,6 +77,15 @@ const getRandomShape = (color: string, size: number) => {
     return Shape;
 };
 
+interface DotProps {
+    anchorRef: RefObject<HTMLAnchorElement>;
+    color: string;
+    initialHorizontal: number;
+    initialVertical: number;
+    rotate: number;
+    size: number;
+}
+
 const Dot = ({
     anchorRef,
     color,
@@ -84,7 +93,7 @@ const Dot = ({
     initialVertical,
     rotate,
     size,
-}) => {
+}: DotProps): JSX.Element => {
     const { initialX, initialY } = alignWithAnchor(anchorRef);
 
     const { horizontal, upwards, zIndex, opacity } = useSpring({
